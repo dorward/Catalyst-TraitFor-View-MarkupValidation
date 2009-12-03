@@ -8,6 +8,9 @@ name 'Catalyst-TraitFor-View-MarkupValidation';
 all_from 'lib/Catalyst/TraitFor/View/MarkupValidation.pm';
 
 requires 'Moose';
+requires 'Template';
+requires 'WebService::Validator::HTML::W3C';
+requires 'Syntax::Highlight::Engine::Kate';
 requires 'namespace::autoclean';
 
 build_requires 'Catalyst::Runtime' => '5.80015';
