@@ -6,7 +6,7 @@ SYNOPSIS
         package Catalyst::View::Validation;
 
         use Moose;
-        use namespace::clean -except => 'meta';
+        use namespace::autoclean;
 
         extends qw/Catalyst::View::TT/;
         with qw/Catalyst::TraitFor::View::MarkupValidation/;
@@ -41,6 +41,8 @@ BUGS AND LIMITATIONS
     errors.
 AUTHOR
     David Dorward (dorward) `<david@dorward.me.uk>'
+CONTRIBUTORS
+    Tomas Doran (t0m) `<bobtfish@bobtfish.net>'
 LICENSE AND COPYRIGHT
     This module itself is copyright (c) 2009 David Dorward and is licensed
     under the same terms as Perl itself.

@@ -147,6 +147,14 @@ Please report any you find using RT.
 
 =back
 
+=head1 CONTRIBUTORS
+
+=over
+
+=item Tomas Doran (t0m) C<< <bobtfish@bobtfish.net> >>
+
+=back
+
 =head1 LICENSE AND COPYRIGHT
 
 This module itself is copyright (c) 2009 David Dorward and is licensed under the
