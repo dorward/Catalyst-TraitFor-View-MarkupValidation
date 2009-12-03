@@ -91,7 +91,7 @@ Catalyst::TraitFor::View::MarkupValidation - Validates output and replaces it wi
     package Catalyst::View::Validation;
 
     use Moose;
-    use namespace::clean -except => 'meta';
+    use namespace::autoclean;
 
     extends qw/Catalyst::View::TT/;
     with qw/Catalyst::TraitFor::View::MarkupValidation/;
