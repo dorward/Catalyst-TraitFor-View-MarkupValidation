@@ -17,11 +17,11 @@ after process => sub {
         || $c->res->header('Content-type') !~
         m{(text/html|application/xhtml+xml)}mxs )
     {
-        warn "Not validating!";
+        print STDERR "\n\nNot validating! " . $c->debug . "\n\n";
         return;
     }
     
-    warn "Validating!";
+    print STDERR "\n\nValidating!\n\n";
 
     my $validator_uri = $c->config->{MARKUP_VALIDATOR_URI};
     if (!$validator_uri) {

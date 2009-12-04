@@ -9,7 +9,7 @@ BEGIN {
     $object->set_true( 'parent_method' )
          ->set_always( -grandparent_method => 1 )
          ->clear();
-    $object->mock( 'validate',
+    $object->mock( 'xvalidate',
         sub { 'impurifying precious bodily fluids' } );
 }
 
@@ -24,10 +24,11 @@ use lib "$Bin/lib";
 # make sure testapp works
 use ok 'TestApp';
 
-# a live test against TestApp, the test application
+# a live test against TestApp, the test application$ENV{CATALYST_DEBUG} = 1;
 use Test::WWW::Mechanize::Catalyst 'TestApp';
 my $mech = Test::WWW::Mechanize::Catalyst->new;
+$mech->{catalyst_debug} = 1;
 $mech->get_ok('http://localhost/', 'get main page');
-$mech->content_like(qr/it works/i, 'see if it has our text');
+$mech->content_like(qr/Valid/ixs, 'see if it has our text');
 
 done_testing;
