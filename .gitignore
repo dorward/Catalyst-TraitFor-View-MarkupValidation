@@ -9,3 +9,4 @@ Makefile.old
 Catalyst-TraitFor-View-MarkupValidation-*
 *.bak
 *.tmp
+.DS_Store
