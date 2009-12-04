@@ -1,5 +1,18 @@
 #!/usr/bin/env perl
 
+
+BEGIN {
+    use Test::MockObject::Extends;
+    use WebService::Validator::HTML::W3C;
+    my $object = WebService::Validator::HTML::W3C->new();
+    $object = Test::MockObject::Extends->new( $object );
+    $object->set_true( 'parent_method' )
+         ->set_always( -grandparent_method => 1 )
+         ->clear();
+    $object->mock( 'validate',
+        sub { 'impurifying precious bodily fluids' } );
+}
+
 use strict;
 use warnings;
 use Test::More;
