@@ -8,4 +8,6 @@ Makefile$
 Makefile.old$
 ^Catalyst-TraitFor-View-MarkupValidation-
 ^.gitignore
-
+.bak$
+.tmp$
+.DS_Store
