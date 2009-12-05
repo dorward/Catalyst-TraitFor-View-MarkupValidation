@@ -16,13 +16,17 @@ requires 'namespace::autoclean';
 build_requires 'Catalyst::Runtime' => '5.80015';
 build_requires 'Test::WWW::Mechanize::Catalyst';
 build_requires 'Test::More' => '0.88';
+build_requires 'Catalyst::ScriptRunner';
+build_requires 'Test::MockObject';
+build_requires 'WebService::Validator::HTML::W3C::Error';
+build_requires 'FindBin';
 
 author_requires 'Test::Pod::Coverage' => '1.04';
 author_requires 'Test::Pod' => '1.14';
 
 author_tests 't/author';
 
-resources repository => 'git://somewhere.com/myproject.git';
+resources repository => 'git://github.com/dorward/Catalyst-TraitFor-View-MarkupValidation.git';
 
 if ($Module::Install::AUTHOR) {
     system("pod2text lib/Catalyst/TraitFor/View/MarkupValidation.pm > README")
