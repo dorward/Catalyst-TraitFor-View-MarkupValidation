@@ -31,7 +31,6 @@ CAVEATS
 
 METHOD MODIFIERS
   after process
-
     Validates document and (in event of an error) replaces it with an error
     report.
 
@@ -39,15 +38,19 @@ TODO
     Make document types that get validated configurable
     Add line numbering to output
     Hyperlink from error to source
+
 BUGS AND LIMITATIONS
     Please report any you find using RT.
 
     If URI to validation service is incorrect, shows error report w/ 0
     errors.
+
 AUTHOR
-    David Dorward (dorward) `<david@dorward.me.uk>'
+    David Dorward (dorward) "<david@dorward.me.uk>"
+
 CONTRIBUTORS
-    Tomas Doran (t0m) `<bobtfish@bobtfish.net>'
+    Tomas Doran (t0m) "<bobtfish@bobtfish.net>"
+
 LICENSE AND COPYRIGHT
     This module itself is copyright (c) 2009 David Dorward and is licensed
     under the same terms as Perl itself.
