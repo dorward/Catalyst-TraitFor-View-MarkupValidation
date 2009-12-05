@@ -17,7 +17,6 @@ after process => sub {
         || $c->res->header('Content-type') !~
         m{(text/html|application/xhtml+xml)}mxs )
     {
-        warn "No validation";
         return;
     }
     
@@ -26,23 +25,17 @@ after process => sub {
         warn "MARKUP_VALIDATOR_URI has not been configured. Will skip Catalyst::TraitFor::View::MarkupValidation";
         return;
     }
-    warn "Creating validator object";
     my $v = WebService::Validator::HTML::W3C->new(
         detailed      => 1,
         validator_uri => $validator_uri
     );
 
-    warn "About to get source";
-
     # Perform the validation
     my $source = $c->res->body;
     $v->validate( string => $source ) or die($!);
 
-    warn "Validate function called successfully";
-
     # Don't switch to error reporting unless there are errors
     if ( $v->is_valid ) {
-        warn 'is valid';
         return;
     }
 
@@ -80,8 +73,7 @@ after process => sub {
     };
     my $template = Template->new();
     my $output;
-    $template->process( \$template_html, $data_for_tt, \$output );
-    #$template->process(\*DATA, $data_for_tt, \$output ) or die($!);
+    $template->process( $template_html, $data_for_tt, \$output );
     $c->res->body($output);
 };
 

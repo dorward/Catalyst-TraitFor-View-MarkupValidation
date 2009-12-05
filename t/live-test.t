@@ -2,6 +2,7 @@
 
 BEGIN {
     use Test::MockObject;
+    use WebService::Validator::HTML::W3C::Error;
     my $import;
     my $mock = Test::MockObject->new();
     $mock->fake_module(
@@ -25,7 +26,14 @@ BEGIN {
             }
             return 1;
         },
-        errors => sub { [] }
+        errors => sub {
+            my $err = WebService::Validator::HTML::W3C::Error->new({
+                          line => 1,
+                          col  => 1,
+                          msg  => "Mock validation error",
+                      });
+            return [ $err ];
+            }
     );
 }
 
