@@ -17,12 +17,11 @@ BEGIN {
             my $self = shift;
             my %args = @_;
             $self->{document} = $args{string};
-            print STDERR "\n\nDocument:\n\n" . $args{string} . "\n\n";
         },
         is_valid => sub {
             my $self = shift;
             if ($self->{document} =~ m/invalid/ixs) {
-                return 1;
+                return 0;
             }
             return 1;
         },
