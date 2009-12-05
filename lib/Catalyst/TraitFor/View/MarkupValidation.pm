@@ -93,6 +93,8 @@ Catalyst::TraitFor::View::MarkupValidation - Validates output and replaces it wi
     extends qw/Catalyst::View::TT/;
     with qw/Catalyst::TraitFor::View::MarkupValidation/;
 
+    __PACKAGE__->config(MARKUP_VALIDATOR_URI => q[http://localhost/w3c-validator/check]);
+
     1;
 
 =head1 DESCRIPTION
@@ -107,6 +109,9 @@ This is useful when you're developing your application, as it will identify
 validity errors in the markup. In production, however, the performance cost is
 likely to be too high, and throwing errors at users that browsers could
 probably recover from is unfriendly.
+
+This module checks that Catalyst is running in debug mode and will not run if
+it is not.
 
 =head1 METHOD MODIFIERS
 
