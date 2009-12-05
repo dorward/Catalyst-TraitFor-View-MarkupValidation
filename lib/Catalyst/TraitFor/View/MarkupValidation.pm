@@ -17,26 +17,28 @@ after process => sub {
         || $c->res->header('Content-type') !~
         m{(text/html|application/xhtml+xml)}mxs )
     {
-        print STDERR "\n\nNot validating! " . $c->debug . "\n\n";
+        warn "No validation";
         return;
     }
     
-    print STDERR "\n\nValidating!\n\n";
-
     my $validator_uri = $c->config->{MARKUP_VALIDATOR_URI};
     if (!$validator_uri) {
         warn "MARKUP_VALIDATOR_URI has not been configured. Will skip Catalyst::TraitFor::View::MarkupValidation";
         return;
     }
-
+    warn "Creating validator object";
     my $v = WebService::Validator::HTML::W3C->new(
         detailed      => 1,
         validator_uri => $validator_uri
     );
 
+    warn "About to get source";
+
     # Perform the validation
     my $source = $c->res->body;
-    $v->validate( string => $source );
+    $v->validate( string => $source ) or die($!);
+
+    warn "Validate function called successfully";
 
     # Don't switch to error reporting unless there are errors
     if ( $v->is_valid ) {
