@@ -52,10 +52,11 @@ use ok 'TestApp';
 use Test::WWW::Mechanize::Catalyst 'TestApp';
 my $mech = Test::WWW::Mechanize::Catalyst->new;
 $mech->{catalyst_debug} = 1;
+
 $mech->get_ok( 'http://localhost/main', 'Get main page (valid document)' );
 $mech->content_like( qr/Test Document/is, 'Check this is (probably) the right page' );
-
 $mech->get_ok( 'http://localhost/invalid', 'Get invalid page' );
 $mech->content_like( qr/Invalid/is, 'Check this is (probably) the right page' );
+$mech->content_like( qr/Mock validation error/is, 'Got validity report' );
 
 done_testing;
