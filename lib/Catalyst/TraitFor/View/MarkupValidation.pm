@@ -19,32 +19,16 @@ after process => sub {
         return;
     }
     
-    my $validator_uri = $c->config->{MARKUP_VALIDATOR_URI};
-    if (!$validator_uri) {
-        warn "MARKUP_VALIDATOR_URI has not been configured. Will skip Catalyst::TraitFor::View::MarkupValidation";
-        return;
-    }
-    my $v = WebService::Validator::HTML::W3C->new(
-        detailed      => 1,
-        validator_uri => $validator_uri
-    );
-
-    # Perform the validation
     my $source = $c->res->body;
-    $v->validate( string => $source ) or die($!);
-
-    # Don't switch to error reporting unless there are errors
-    if ( $v->is_valid ) {
+    my $validator_uri = $c->config->{MARKUP_VALIDATOR_URI};
+    my @report = _validate($source, $validator_uri);
+    
+    # continue as normal if no errors
+    if (!scalar @report) {
         return;
     }
 
     my $template_html = $c->config->{MARKUP_VALIDATOR_REPORT_TEMPLATE} || \*DATA;
-
-    my $errors = $v->errors();
-    my @report = ();
-    foreach my $err ( @{$errors} ) {
-        push @report, [ $err->line, $err->col, $err->msg ];
-    }
 
     my $hl = Syntax::Highlight::Engine::Kate->new(
         language      => 'HTML',
@@ -75,6 +59,36 @@ after process => sub {
     $template->process( $template_html, $data_for_tt, \$output );
     $c->res->body($output);
 };
+
+sub _validate {
+    my ($source, $validator_uri) = @_;
+    
+    if (!$validator_uri) {
+        warn "MARKUP_VALIDATOR_URI has not been configured. Will skip Catalyst::TraitFor::View::MarkupValidation";
+        return undef;
+    }
+    
+    my $v = WebService::Validator::HTML::W3C->new(
+        detailed      => 1,
+        validator_uri => $validator_uri
+    );
+
+    # Perform the validation
+    $v->validate( string => $source ) or die($!);
+
+    # Don't switch to error reporting unless there are errors
+    if ( $v->is_valid ) {
+        return;
+    }
+
+    my $errors = $v->errors();
+    my @report = ();
+    foreach my $err ( @{$errors} ) {
+        push @report, [ $err->line, $err->col, $err->msg ];
+    }
+    
+    return @report;
+}
 
 1;
 
