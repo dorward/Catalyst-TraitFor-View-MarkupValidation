@@ -4,10 +4,9 @@ use Moose::Role;
 use Template;
 use WebService::Validator::HTML::W3C;
 use Syntax::Highlight::Engine::Kate;
-
 use namespace::autoclean;
 
-our $VERSION = '0.001';
+our $VERSION = '0.002';
 
 after process => sub {
     my ( $self, $c ) = @_;

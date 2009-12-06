@@ -12,6 +12,7 @@ requires 'Template';
 requires 'WebService::Validator::HTML::W3C';
 requires 'Syntax::Highlight::Engine::Kate';
 requires 'namespace::autoclean';
+requires 'Memoize';
 
 build_requires 'Catalyst::Runtime' => '5.80015';
 build_requires 'Test::WWW::Mechanize::Catalyst';
@@ -20,6 +21,8 @@ build_requires 'Catalyst::ScriptRunner';
 build_requires 'Test::MockObject';
 build_requires 'WebService::Validator::HTML::W3C::Error';
 build_requires 'FindBin';
+build_requires 'Catalyst::View::TT';
+build_requires 'ok';
 
 author_requires 'Test::Pod::Coverage' => '1.04';
 author_requires 'Test::Pod' => '1.14';
