@@ -8,6 +8,9 @@ use namespace::autoclean;
 
 our $VERSION = '0.002';
 
+use Memoize;
+
+
 after process => sub {
     my ( $self, $c ) = @_;
 
@@ -23,8 +26,12 @@ after process => sub {
     my $validator_uri = $c->config->{MARKUP_VALIDATOR_URI};
     my @report = _validate($source, $validator_uri);
     
+    use Data::Dump qw/dump/;
+    print STDERR "\n\n", dump \@report, "\n\n";
+    
     # continue as normal if no errors
     if (!scalar @report) {
+        warn "No errors";
         return;
     }
 
@@ -48,15 +55,23 @@ after process => sub {
         },
     );
 
+    warn "Source is: $source";
+
     my $highlighted_source = $hl->highlightText($source);
+
+    warn "Past highlighted source";
 
     my $data_for_tt = {
         source => $highlighted_source,
         report => \@report
     };
     my $template = Template->new();
+    warn "Made a template object";
     my $output;
-    $template->process( $template_html, $data_for_tt, \$output );
+    $template->process( $template_html, $data_for_tt, \$output ) or die ("The template didn't work! $!");
+    warn "Template run";
+    warn dump $output;
+    warn "Dump warned";
     $c->res->body($output);
 };
 
@@ -89,6 +104,8 @@ sub _validate {
     
     return @report;
 }
+
+memoize('_validate');
 
 1;
 
