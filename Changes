@@ -10,6 +10,8 @@ Rework template loading to resolve a bug.
 Remove (undocumented) template configuration option until the bug can be solved
     in a better way.
 
+Improve tests a little
+
 0.001		2009-12-05
 
 Initial release

@@ -13,6 +13,7 @@ requires 'WebService::Validator::HTML::W3C';
 requires 'Syntax::Highlight::Engine::Kate';
 requires 'namespace::autoclean';
 requires 'Memoize';
+requires 'Carp';
 
 build_requires 'Catalyst::Runtime' => '5.80015';
 build_requires 'Test::WWW::Mechanize::Catalyst';
