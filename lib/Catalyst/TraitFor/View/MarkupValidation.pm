@@ -1,15 +1,16 @@
 package Catalyst::TraitFor::View::MarkupValidation;
 
+use strict;
+use warnings;
+use Carp;
 use Moose::Role;
 use Template;
 use WebService::Validator::HTML::W3C;
 use Syntax::Highlight::Engine::Kate;
 use namespace::autoclean;
-
-our $VERSION = '0.002';
-
 use Memoize;
 
+our $VERSION = '0.002';
 
 after process => sub {
     my ( $self, $c ) = @_;
@@ -91,7 +92,7 @@ after process => sub {
     };
     my $template = Template->new();
     my $output;
-    $template->process( \$template_html, $data_for_tt, \$output ) or die ("The template didn't work! $!");
+    $template->process( \$template_html, $data_for_tt, \$output ) or croak ("The template didn't work! ", $!);
     $c->res->body($output);
 };
 
@@ -99,8 +100,8 @@ sub _validate {
     my ($source, $validator_uri) = @_;
     
     if (!$validator_uri) {
-        warn "MARKUP_VALIDATOR_URI has not been configured. Will skip Catalyst::TraitFor::View::MarkupValidation";
-        return undef;
+        carp "MARKUP_VALIDATOR_URI has not been configured. Will skip Catalyst::TraitFor::View::MarkupValidation";
+        return;
     }
     
     my $v = WebService::Validator::HTML::W3C->new(
@@ -109,7 +110,7 @@ sub _validate {
     );
 
     # Perform the validation
-    $v->validate( string => $source ) or die($!);
+    $v->validate( string => $source ) or croak($!);
 
     # Don't switch to error reporting unless there are errors
     if ( $v->is_valid ) {
