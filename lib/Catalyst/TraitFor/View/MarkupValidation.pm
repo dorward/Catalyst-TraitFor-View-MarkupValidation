@@ -26,16 +26,44 @@ after process => sub {
     my $validator_uri = $c->config->{MARKUP_VALIDATOR_URI};
     my @report = _validate($source, $validator_uri);
     
-    use Data::Dump qw/dump/;
-    print STDERR "\n\n", dump \@report, "\n\n";
-    
     # continue as normal if no errors
     if (!scalar @report) {
-        warn "No errors";
         return;
     }
 
-    my $template_html = $c->config->{MARKUP_VALIDATOR_REPORT_TEMPLATE} || \*DATA;
+    my $template_html = q[<!doctype html>
+<html>
+    <head>
+        <title>Error report</title>
+        <style type="text/css">
+        .DataType { color: red; }
+        .Normal { color: black; }
+        .Keyword { font-weight: bold; }
+        .String { font-style: italic; }
+        .Others { color: blue; }
+        </style>
+    </head>
+    <body>
+        <h1>Error report</h1>
+        
+        <table>
+        <tr>
+            <th scope="col">Line</th>
+            <th scope="col">Col</th>
+            <th scope="col">Error</th>
+        </tr>
+        [% FOREACH error = report %]
+            <tr>
+            <td>[% error.0 %]</td>
+            <td>[% error.1 %]</td>
+            <td>[% error.2 %]</td>
+        </tr>
+        [% END %]
+        </table>
+        <pre>[% source  %]</pre>
+    </body>
+</html>
+]; #$c->config->{MARKUP_VALIDATOR_REPORT_TEMPLATE} || \*DATA;
 
     my $hl = Syntax::Highlight::Engine::Kate->new(
         language      => 'HTML',
@@ -55,23 +83,15 @@ after process => sub {
         },
     );
 
-    warn "Source is: $source";
-
     my $highlighted_source = $hl->highlightText($source);
-
-    warn "Past highlighted source";
 
     my $data_for_tt = {
         source => $highlighted_source,
         report => \@report
     };
     my $template = Template->new();
-    warn "Made a template object";
     my $output;
-    $template->process( $template_html, $data_for_tt, \$output ) or die ("The template didn't work! $!");
-    warn "Template run";
-    warn dump $output;
-    warn "Dump warned";
+    $template->process( \$template_html, $data_for_tt, \$output ) or die ("The template didn't work! $!");
     $c->res->body($output);
 };
 
