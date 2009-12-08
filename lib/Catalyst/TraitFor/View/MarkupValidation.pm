@@ -153,6 +153,16 @@ This is a Role which which takes generated content that is ready for output and
 validates it. If there are errors it replaces the default output with an
 error report.
 
+=head1 CONFIGURATION
+
+You must set the MARKUP_VALIDATOR_URI to the URI for an instance of the W3C
+Markup Validation Service. You are encouraged to install a local instance of
+the validator so that you see high levels of performance and do not hammer the
+public server (which is funded by donations).
+
+See L<http://validator.w3.org/source/> for downloads and installation instructions
+on a variety of platforms.
+
 =head1 CAVEATS
 
 This is useful when you're developing your application, as it will identify
