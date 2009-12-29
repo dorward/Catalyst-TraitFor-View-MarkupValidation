@@ -1,3 +1,7 @@
+0.003		2009-12-29
+
+Tweak Makefile.PL to add a requirement that was thrown up by smoke testing
+
 0.002           2009-12-08
 
 Cache results of validation (which is an expensive operation).

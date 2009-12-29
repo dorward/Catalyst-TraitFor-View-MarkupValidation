@@ -10,7 +10,7 @@ use Syntax::Highlight::Engine::Kate;
 use namespace::autoclean;
 use Memoize;
 
-our $VERSION = '0.002';
+our $VERSION = '0.003';
 
 after process => sub {
     my ( $self, $c ) = @_;
