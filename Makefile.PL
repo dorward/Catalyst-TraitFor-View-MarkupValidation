@@ -14,6 +14,7 @@ requires 'Syntax::Highlight::Engine::Kate';
 requires 'namespace::autoclean';
 requires 'Memoize';
 requires 'Carp';
+requires 'Catalyst::Action::RenderView';
 
 build_requires 'Catalyst::Runtime' => '5.80015';
 build_requires 'Test::WWW::Mechanize::Catalyst';
